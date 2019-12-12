@@ -1,4 +1,5 @@
-const orbits = require('./common')
+const getOrbits = require('./get-orbits')
+const orbits = getOrbits()
 
 const YOU = orbits.find(n => n.name === 'YOU')
 const SAN = orbits.find(n => n.name === 'SAN')

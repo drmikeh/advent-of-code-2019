@@ -30,6 +30,7 @@ DE - two-digit opcode,      02 == opcode 2
  B - mode of 2nd parameter,  1 == immediate mode
  A - mode of 3rd parameter,  0 == position mode,
                                   omitted due to being a leading zero
+
 This instruction multiplies its first two parameters. The first parameter, 4 in position mode, works like it did before - its value is the value stored at address 4 (33). The second parameter, 3 in immediate mode, simply has value 3. The result of this operation, 33 * 3 = 99, is written according to the third parameter, 4 in position mode, which also works like it did before - 99 is written to address 4.
 
 Parameters that an instruction writes to will never be in immediate mode.
