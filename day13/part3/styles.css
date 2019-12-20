@@ -1,0 +1,48 @@
+body {
+    text-align: center;
+}
+
+h1,
+h2,
+h3 {
+    margin: 5px;
+}
+
+table {
+    margin: 30px auto;
+    border: 3px solid green;
+    padding: 10px;
+    background: black;
+}
+
+#game {
+    font-size: 0;
+    border-collapse: collapse;
+    border: 10px solid black;
+}
+
+#game > tr > td {
+    height: 15px;
+    width: 15px;
+    display: inline-block;
+    margin: 0;
+    background: black;
+}
+
+.empty {
+    background: black !important;
+}
+.wall {
+    background: white !important;
+}
+.block {
+    background: blue !important;
+}
+.paddle {
+    background: white !important;
+    height: 5px !important;
+}
+.ball {
+    background: red !important;
+    border-radius: 50%;
+}
