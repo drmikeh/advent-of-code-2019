@@ -15,10 +15,14 @@
         <h2>Arcade Cabinet Breakout Game</h2>
         <h3>A Care Package from Santa's Elves</h3>
         <table id="game"></table>
-        <h2>Score: <span id="score"></span></h2>
+        <h2>Score: <span id="score">0</span></h2>
         <h3>Destroyed Blocks: <span id="blocks-destroyed">0</span></h3>
         <h3>Remaining Blocks: <span id="blocks-remaining">0</span></h3>
-        <h3 id="status"></h3>
+        <hr/>
+        <h3 id="status">Loading Game</h3>
+        <button id="pause">Play / Pause</button>
         <button id="speed" onclick="toggleSpeed()">Toggle Speed</button>
+        <button id="debug" onclick="toggleDebugMessages()">Toggle Debug</button>
+        <button id="clear" onclick="clearDebugMessages()">Clear Debug</button>
     </body>
 </html>

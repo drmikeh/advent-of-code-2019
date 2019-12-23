@@ -15,14 +15,10 @@ function getCell(x, y) {
 
 let delay = 0
 let speeds = [0, 30]
-let slow = true
-function toggleSpeed() {
-    if (slow) {
-        delay = speeds[0]
-    } else {
-        delay = speeds[1]
-    }
-    slow = !slow
+let isSlow = false
+
+function setOnClick(id, fn) {
+    document.getElementById(id).onclick = fn
 }
 
 function play() {
@@ -40,11 +36,44 @@ function play() {
     let isGameStarted = false // the game will start after we find the first block
     let allBlocksDestroyed = false
     let score = null
+    let gamePaused = false
+
+    function setStatus() {
+        const status = gamePaused
+            ? 'Paused'
+            : 'Playing ' +
+              (isSlow ? 'slowly' : 'quickly') +
+              ' with debug level ' +
+              getDebugLevel()
+        document.getElementById('status').innerHTML = status
+    }
+
+    function toggleSpeed() {
+        if (isSlow) {
+            delay = speeds[0]
+        } else {
+            delay = speeds[1]
+        }
+        isSlow = !isSlow
+        setStatus(gamePaused, isSlow)
+    }
+    setOnClick('speed', toggleSpeed)
+
+    function togglePause() {
+        gamePaused = !gamePaused
+        setStatus(gamePaused, isSlow)
+        if (!gamePaused) {
+            step()
+        }
+    }
+    setOnClick('pause', togglePause)
 
     function step() {
         const x = runProgram(computer, joystick, true)
         const y = runProgram(computer, joystick, true)
         const tile = runProgram(computer, joystick, true)
+
+        setStatus() // not ideal but I needed to support updating the status when the debug level changes
 
         if (x === -1 && y === 0) {
             score = tile
@@ -74,7 +103,7 @@ function play() {
                     break
                 case BLOCK:
                     isGameStarted = true
-                    delay = speeds[1]
+                    delay = speeds[0]
                     if (!blocksCache[hash]) {
                         numBlocksRemaining++
                         document.getElementById(
@@ -82,7 +111,15 @@ function play() {
                         ).innerHTML = numBlocksRemaining
                         blocksCache[hash] = true
                     }
-                    getCell(x, y).className = 'block'
+                    const cell = getCell(x, y)
+                    cell.className = 'block'
+                    const colors = [
+                        'rgb(255, 128, 128)',
+                        'rgb(128, 255, 128)',
+                        'rgb(128, 128, 255)'
+                    ]
+                    // const blue = Math.floor((y / MAX_Y) * 128) + 128
+                    cell.style.backgroundColor = colors[y % colors.length]
                     break
                 case PADDLE:
                     getCell(paddle.x, paddle.y).className = 'empty'
@@ -111,11 +148,11 @@ function play() {
 
         debug({ x, y, tile: TILES[tile], numBlocksRemaining })
 
-        if (!gameOver) {
+        if (!gameOver && !gamePaused) {
             setTimeout(step, delay)
-        } else {
-            getCell(ball.x, ball.y).className = 'empty'
-            document.getElementById('status').innerHTML = 'Game Over'
+        } else if (gameOver) {
+            getCell(ball.x, ball.y).className = 'empty' // hide the ball
+            setStatus('Game Over')
         }
     }
     step()

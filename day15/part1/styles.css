@@ -15,34 +15,36 @@ table {
     background: black;
 }
 
-#game {
-    font-size: 0;
+#maze {
+    /* font-size: 0; */
     border-collapse: collapse;
     border: 10px solid black;
 }
 
-#game > tr > td {
+#maze > tr > td {
     height: 15px;
     width: 15px;
     display: inline-block;
     margin: 0;
     background: black;
+    color: white;
 }
 
-.empty {
-    background: black !important;
+.unknown {
+    /* background: white !important; */
+    color: white !important;
 }
+
 .wall {
     background: white !important;
 }
-.block {
-    /* background: blue !important; */
+
+.droid {
+    /* background: red; */
+    font-size: 14px;
+    padding: 1px;
 }
-.paddle {
-    background: white !important;
-    height: 5px !important;
-}
-.ball {
-    background: red !important;
-    border-radius: 50%;
+
+.oxygen-system {
+    color: lightgreen;
 }

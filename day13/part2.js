@@ -78,7 +78,7 @@ function play() {
             allBlocksDestroyed = true
         }
 
-        console.log({ x, y, tile: TILES[tile], numberOfBlocks })
+        // console.log({ x, y, tile: TILES[tile], numberOfBlocks })
     }
 
     console.log({ minX, maxX, minY, maxY, score }) // 14538

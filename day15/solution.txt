@@ -1,0 +1,45 @@
+Approach: 
+Build a search tree with the origin as the root. After finding the oxygen system,
+simply count the depth of the tree at the point of the oxygen system.
+
+
+
+ { direction: 'RIGHT', pos: { x: 16, y: 12 }, output: 'WALL' }
+mazeCache size: 695 { minX: -13, maxX: 21, minY: -17, maxY: 19 }
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎WW W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W   W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W WW⚡︎
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W   W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎WW W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎WW W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎   W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎WW W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W   W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎WWWWWWWWWWW⚡︎⚡︎W WWW W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W           W⚡︎W   W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W WWWWWWWWW WWWWW WW⚡︎
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W W     W   W   W   W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎WW W WWW W WWW W WWW W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W W     W W     W W   W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W WWWWW W WWWWWWW W W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W     W W W   W   W W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎WWW⚡︎⚡︎⚡︎WWWW WWW W WWW WWW W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W   W⚡︎⚡︎⚡︎⚡︎⚡︎W     W     W   W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W W W⚡︎⚡︎WWWWWWWWWW WWWWW W W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W W W⚡︎W           W     W W W
+⚡︎⚡︎⚡︎WWWW W WWW WWWWWWWWWWWWWWW W WW⚡︎
+⚡︎⚡︎W     W   W W             W W   W
+⚡︎WW WWWWWWW W W W⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎WWWW WWWWW W
+W   W     W   W W⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎   W     W W
+W WWWWW W WWWWW WW⚡︎⚡︎⚡︎⚡︎⚡︎ W WWWWW W W
+W       W W   W   W⚡︎⚡︎⚡︎⚡︎ W   DOW W W    <==== answer: 204
+⚡︎WWWWWWWW W WWW W WWWW⚡︎ ⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎ W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W   W     W     W         W W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W WWWWWW⚡︎⚡︎⚡︎WWWW W WWWW⚡︎WWWW W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W W     W⚡︎⚡︎⚡︎⚡︎⚡︎W W     W     W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W W WWW WWWWWWW WWWWW WWWWW W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎W   W           W           W
+⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎⚡︎WWW⚡︎WWWWWWWWWWW⚡︎WWWWWWWWWWW⚡︎
