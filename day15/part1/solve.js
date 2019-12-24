@@ -1,39 +1,34 @@
 class TreeNode {
-    constructor(value) {
-        this.value = value
+    constructor(parent, pos, value) {
+        this.parent = parent // for backtracking
+        this.pos = pos
+        this.value = value // SPACE or OXYGEN_SYSTEM
         this.children = []
     }
-}
-
-function render(output) {
-    renderOutput(output)
-    renderPosition()
-    renderMaze()
+    addChild(pos, value) {
+        const child = new TreeNode(this, pos, value)
+        this.children.push(child)
+        return child
+    }
+    hasChild(pos) {
+        const found = this.children.find(
+            child => child.pos.x === pos.x && child.pos.y === pos.y
+        )
+        return !!found
+    }
+    isParentPosition(pos) {
+        return pos.x === this.parent.pos.x && pos.y === this.parent.pos.y
+    }
+    toString(level = 0) {
+        return `${' '.repeat(level)}(${this.pos.x}, ${this.pos.y}) : ${
+            this.value
+        }`
+    }
 }
 
 const DIRECTIONS = [UP, DOWN, LEFT, RIGHT]
 
-function* stepper2() {
-    const stack = DIRECTIONS // should this be a tree instead of an array
-    while (stack.length > 0) {
-        const direction = stack.shift()
-        renderDirection(direction)
-        const output = move(direction)
-        if (output !== WALL) {
-            const nextDirections = [
-                ...DIRECTIONS.filter(dir => dir !== direction.reverse),
-                direction.reverse
-            ]
-            stack.unshift(...nextDirections)
-            console.log({ stack })
-            yield output
-        } else {
-            yield output
-        }
-    }
-}
-
-function checkForUnknownValue(direction, pos) {
+function checkForUnknownValue(direction) {
     const newPositionHash = hash(direction.move(pos))
     return !mazeCache.has(newPositionHash)
 }
@@ -53,48 +48,45 @@ function checkMoveValue(dir, pos, value) {
     )
 }
 
+const gen = stepper()
+let totalSteps = 0
+const root = new TreeNode(null, pos, SPACE)
+let currentNode = root
+
+function printTree(node = root, level = 0) {
+    console.log(node.toString(level))
+    node.children.forEach(child => printTree(child, level + 1))
+}
+
 function* stepper() {
     let found = false
-    let lastDirection = UP
     while (!found) {
-        let possibleNextDirections = DIRECTIONS.filter(dir =>
-            checkForUnknownValue(dir, pos)
-        )
+        // printTree()
+        let possibleNextDirections = DIRECTIONS.filter(checkForUnknownValue)
         if (possibleNextDirections.length === 0) {
-            console.log(
-                'all directions have known values, so pick a random space'
+            const spaces = DIRECTIONS.filter(
+                dir =>
+                    checkMoveValue(dir, pos, SPACE) &&
+                    !currentNode.isParentPosition(dir.move(pos)) // ignore parent for now - BETTER IS TO MARK VISITED CHILDREN AND DON'T REVISIT THEM
             )
-            const spaces = DIRECTIONS.filter(dir =>
-                checkMoveValue(dir, pos, SPACE)
-            )
-            const randomIndex = Math.floor(Math.random() * spaces.length)
-            possibleNextDirections.push(spaces[randomIndex])
+            possibleNextDirections = possibleNextDirections.concat(spaces)
         }
         if (possibleNextDirections.length === 0) {
-            console.log('MUST REVERSE')
-            // possibleNextDirections.push(lastDirection) // as a last resort, go backwards
-            possibleNextDirections = DIRECTIONS.filter(dir =>
-                checkMoveValue(dir, pos, SPACE)
+            possibleNextDirections.push(
+                DIRECTIONS.find(
+                    dir => currentNode.isParentPosition(dir.move(pos)) // back tracking
+                )
             )
         }
         if (possibleNextDirections.length === 0) {
-            console.log(mazeCache.get(hash(UP.move(pos))))
-            console.error(
-                `ERROR: Cannot find a nextDirection for position ${hash(
-                    pos
-                )} and lastDirection ${lastDirection.name}`
-            )
             throw new Error('NO!!!!!')
         }
-        console.log(
-            `possibleNextDirections: ${possibleNextDirections.map(
-                dir => dir.name
-            )}`
-        )
         const direction = possibleNextDirections[0]
         renderDirection(direction)
         const output = move(direction)
-        lastDirection = direction
+        if (output !== WALL && currentNode.hasChild(pos) === false) {
+            currentNode = currentNode.addChild(pos, output)
+        }
         yield output
     }
 }
@@ -103,18 +95,26 @@ function sleep(millis) {
     return new Promise(res => setTimeout(res, millis))
 }
 
-const gen = stepper()
-
 function step() {
     const output = gen.next().value
+    totalSteps += 1
     render(output)
     return output
+}
+
+let paused = false
+function togglePause() {
+    paused = !paused
 }
 
 async function solve() {
     let output = null
     while (output !== OXYGEN_SYSTEM) {
-        output = step()
-        await sleep(0)
+        if (!paused) {
+            output = step()
+            await sleep(0)
+        } else {
+            await sleep(500)
+        }
     }
 }

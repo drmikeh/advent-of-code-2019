@@ -20,12 +20,14 @@
         <h3>Position: <span id="position">(0, 0)</span></h3>
         <h3>Direction: <span id="direction"></span></h3>
         <h3>Output: <span id="output"></span></h3>
+        <h3>Total Steps: <span id="steps">0</span></h3>
         <button id="up" onclick="up()">Up</button>
         <button id="down" onclick="down()">Down</button>
         <button id="left" onclick="left()">Left</button>
         <button id="right" onclick="right()">Right</button>
         <br/>
         <button onclick="solve()">Solve</button>
+        <button onclick="togglePause()">Pause</button>
         <button onclick="step()">Step</button>
         <hr/>
         <table id="maze"></table>

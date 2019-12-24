@@ -51,11 +51,11 @@ function hash(pos) {
 
 function move(direction) {
     const output = runProgram(computer, direction.value, true)
-    console.log({
-        direction: direction.name,
-        pos: `(${pos.x}, ${pos.y})`,
-        output: RESULTS[output] || output
-    })
+    // console.log({
+    //     direction: direction.name,
+    //     pos: `(${pos.x}, ${pos.y})`,
+    //     output: RESULTS[output] || output
+    // })
 
     switch (output) {
         case SPACE: {

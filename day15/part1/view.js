@@ -57,6 +57,7 @@ const mazeElement = document.getElementById('maze')
 const outputElement = document.getElementById('output')
 const positionElement = document.getElementById('position')
 const directionElement = document.getElementById('direction')
+const stepsElement = document.getElementById('steps')
 
 renderMaze()
 
@@ -70,6 +71,17 @@ function renderPosition() {
 
 function renderDirection(direction) {
     directionElement.innerHTML = direction.name
+}
+
+function renderTotalSteps() {
+    stepsElement.innerHTML = totalSteps
+}
+
+function render(output) {
+    renderOutput(output)
+    renderPosition()
+    renderTotalSteps()
+    renderMaze()
 }
 
 function up() {
