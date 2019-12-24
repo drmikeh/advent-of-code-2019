@@ -1,14 +1,18 @@
 class TreeNode {
-    constructor(parent, pos, value) {
+    constructor(parent, pos, value, depth) {
         this.parent = parent // for backtracking
         this.pos = pos
         this.value = value // SPACE or OXYGEN_SYSTEM
+        this.depth = depth
         this.children = []
     }
     addChild(pos, value) {
-        const child = new TreeNode(this, pos, value)
+        const child = new TreeNode(this, pos, value, this.depth + 1)
         this.children.push(child)
         return child
+    }
+    getNextUnvisitedChild() {
+        return this.children.find(child => child.value === null)
     }
     hasChild(pos) {
         const found = this.children.find(
@@ -17,6 +21,7 @@ class TreeNode {
         return !!found
     }
     isParentPosition(pos) {
+        if (this.parent === null) return false
         return pos.x === this.parent.pos.x && pos.y === this.parent.pos.y
     }
     toString(level = 0) {
@@ -50,7 +55,10 @@ function checkMoveValue(dir, pos, value) {
 
 const gen = stepper()
 let totalSteps = 0
-const root = new TreeNode(null, pos, SPACE)
+const root = new TreeNode(null, pos, SPACE, 0)
+DIRECTIONS.forEach(dir => {
+    root.addChild(dir.move(pos), null)
+})
 let currentNode = root
 
 function printTree(node = root, level = 0) {
@@ -58,36 +66,33 @@ function printTree(node = root, level = 0) {
     node.children.forEach(child => printTree(child, level + 1))
 }
 
+function getDirectionToNode(node) {
+    return DIRECTIONS.find(dir => {
+        const newPos = dir.move(pos)
+        return newPos.x === node.pos.x && newPos.y === node.pos.y
+    })
+}
+
 function* stepper() {
     let found = false
     while (!found) {
         // printTree()
-        let possibleNextDirections = DIRECTIONS.filter(checkForUnknownValue)
-        if (possibleNextDirections.length === 0) {
-            const spaces = DIRECTIONS.filter(
-                dir =>
-                    checkMoveValue(dir, pos, SPACE) &&
-                    !currentNode.isParentPosition(dir.move(pos)) // ignore parent for now - BETTER IS TO MARK VISITED CHILDREN AND DON'T REVISIT THEM
-            )
-            possibleNextDirections = possibleNextDirections.concat(spaces)
-        }
-        if (possibleNextDirections.length === 0) {
-            possibleNextDirections.push(
-                DIRECTIONS.find(
-                    dir => currentNode.isParentPosition(dir.move(pos)) // back tracking
-                )
-            )
-        }
-        if (possibleNextDirections.length === 0) {
-            throw new Error('NO!!!!!')
-        }
-        const direction = possibleNextDirections[0]
+        currentNode = currentNode.getNextUnvisitedChild() || currentNode.parent
+        const direction = getDirectionToNode(currentNode)
         renderDirection(direction)
-        const output = move(direction)
-        if (output !== WALL && currentNode.hasChild(pos) === false) {
-            currentNode = currentNode.addChild(pos, output)
+        currentNode.value = move(direction)
+
+        // if we moved into a new SPACE that we haven't seen before, add the proper children
+        if (currentNode.value !== WALL && currentNode.children.length === 0) {
+            DIRECTIONS.filter(
+                dir => !currentNode.isParentPosition(dir.move(pos))
+            ).forEach(dir => {
+                currentNode.addChild(dir.move(pos), null)
+            })
+        } else if (currentNode.value === WALL) {
+            currentNode = currentNode.parent
         }
-        yield output
+        yield currentNode.value
     }
 }
 
@@ -114,7 +119,7 @@ async function solve() {
             output = step()
             await sleep(0)
         } else {
-            await sleep(500)
+            await sleep(50)
         }
     }
 }

@@ -4,12 +4,6 @@ const makeComputer = require('../day09/make-computer')
 
 const computer = makeComputer('./data.txt')
 
-/*
-0: The repair droid hit a wall. Its position has not changed.
-1: The repair droid has moved one step in the requested direction.
-2: The repair droid has moved one step in the requested direction; its new position is the location of the oxygen system.
-*/
-
 const UP = {
     name: 'UP',
     value: 1,
@@ -128,8 +122,6 @@ function part1() {
     // let nextCells = [] // should be an Ordered Set
     while (true) {
         printMaze(mazeCache)
-        // nextCells = nextCells.concat(getNextCells())
-        // const direction = getNextDirectionFromNextCell(nextCells.shift())
         direction = askForDirection()
         pos = tryMove(direction, pos, mazeCache)
     }

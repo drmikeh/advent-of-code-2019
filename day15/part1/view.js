@@ -58,6 +58,7 @@ const outputElement = document.getElementById('output')
 const positionElement = document.getElementById('position')
 const directionElement = document.getElementById('direction')
 const stepsElement = document.getElementById('steps')
+const currentDepthElement = document.getElementById('current-depth')
 
 renderMaze()
 
@@ -77,10 +78,15 @@ function renderTotalSteps() {
     stepsElement.innerHTML = totalSteps
 }
 
+function renderCurrentDepth() {
+    currentDepthElement.innerHTML = currentNode.depth
+}
+
 function render(output) {
     renderOutput(output)
     renderPosition()
     renderTotalSteps()
+    renderCurrentDepth()
     renderMaze()
 }
 
