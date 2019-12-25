@@ -1,3 +1,11 @@
+const RESULTS_HTML = [
+    '<span class="wall">W</span>',
+    '<span class="space"></span>',
+    '<span class="oxygen-system">O</span>',
+    '<span class="droid">&#129302;</span>',
+    '<span class="marked-path">*</span>'
+]
+
 function renderMaze() {
     const minX = [...mazeCache.keys()].reduce(
         (min, key) => Math.min(min, key.split(',')[0]),
@@ -34,6 +42,8 @@ function renderMaze() {
                     : '<span class="unknown">?</span>'
             const cell = document.createElement('td')
             cell.innerHTML = text
+            if (x === 0 && y === 0) cell.className = 'origin'
+            // else if (v === MARKED_PATH) cell.className = 'marked-path'
             row.appendChild(cell)
         }
         mazeElement.appendChild(row)
@@ -59,6 +69,7 @@ const positionElement = document.getElementById('position')
 const directionElement = document.getElementById('direction')
 const stepsElement = document.getElementById('steps')
 const currentDepthElement = document.getElementById('current-depth')
+const maxDepthElement = document.getElementById('max-depth')
 
 renderMaze()
 
@@ -82,11 +93,16 @@ function renderCurrentDepth() {
     currentDepthElement.innerHTML = currentNode.depth
 }
 
+function renderMaxDepth() {
+    maxDepthElement.innerHTML = maxDepth
+}
+
 function render(output) {
     renderOutput(output)
     renderPosition()
     renderTotalSteps()
     renderCurrentDepth()
+    renderMaxDepth()
     renderMaze()
 }
 

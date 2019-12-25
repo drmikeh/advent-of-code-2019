@@ -2,6 +2,7 @@ const WALL = 0
 const SPACE = 1
 const OXYGEN_SYSTEM = 2
 const DROID = 3
+const MARKED_PATH = 4
 
 const computer = makeComputer('./data.txt')
 
@@ -31,12 +32,6 @@ LEFT.reverse = RIGHT
 RIGHT.reverse = LEFT
 
 const RESULTS = ['WALL', 'SPACE', 'OXYGEN_SYSTEM']
-const RESULTS_HTML = [
-    '<span class="wall">W</span>',
-    '<span class="space"></span>',
-    '<span class="oxygen-system">O</span>',
-    '<span class="droid">&#129302;</span>'
-]
 
 const mazeCache = new Map()
 let pos = {
@@ -69,7 +64,10 @@ function move(direction) {
         }
         case OXYGEN_SYSTEM:
             // mark the oxygen system and return
-            console.log('FOUND THE OXYGEN SYSTEM at', pos)
+            console.log('FOUND THE OXYGEN SYSTEM at', {
+                pos,
+                depth: currentNode.depth
+            })
             mazeCache.set(hash(pos), SPACE) // droid leaves old position
             pos = direction.move(pos)
             mazeCache.set(hash(pos), OXYGEN_SYSTEM) // droid enters oxygen system

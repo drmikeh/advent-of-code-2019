@@ -4,6 +4,7 @@ class TreeNode {
         this.pos = pos
         this.value = value // SPACE or OXYGEN_SYSTEM
         this.depth = depth
+        maxDepth = Math.max(maxDepth, depth)
         this.children = []
     }
     addChild(pos, value) {
@@ -55,6 +56,7 @@ function checkMoveValue(dir, pos, value) {
 
 const gen = stepper()
 let totalSteps = 0
+let maxDepth = 0
 const root = new TreeNode(null, pos, SPACE, 0)
 DIRECTIONS.forEach(dir => {
     root.addChild(dir.move(pos), null)
@@ -74,10 +76,12 @@ function getDirectionToNode(node) {
 }
 
 function* stepper() {
-    let found = false
-    while (!found) {
+    while (true) {
         // printTree()
         currentNode = currentNode.getNextUnvisitedChild() || currentNode.parent
+        if (currentNode === null) {
+            throw new Error('No more nodes to process')
+        }
         const direction = getDirectionToNode(currentNode)
         renderDirection(direction)
         currentNode.value = move(direction)
@@ -114,12 +118,24 @@ function togglePause() {
 
 async function solve() {
     let output = null
-    while (output !== OXYGEN_SYSTEM) {
+
+    // find the oxygen system
+    // while (output !== OXYGEN_SYSTEM) {
+    while (currentNode !== null) {
         if (!paused) {
             output = step()
             await sleep(0)
         } else {
-            await sleep(50)
+            await sleep(0)
         }
+    }
+    // highlight the path to the oxygen system
+    currentNode = currentNode.parent
+    while (currentNode !== root) {
+        const pos = currentNode.pos
+        mazeCache.set(hash(pos), MARKED_PATH)
+        render()
+        await sleep(0)
+        currentNode = currentNode.parent
     }
 }

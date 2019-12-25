@@ -8,6 +8,37 @@ h3 {
     margin: 5px;
 }
 
+.dashboard {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    padding: 10px;
+}
+
+.dashboard > * {
+    flex: 0 0 33%;
+}
+
+button {
+    background: rgb(211, 211, 211);
+    border: none;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    box-shadow: 2px 2px 5px 2px rgb(96, 96, 96);
+    margin: 10px;
+}
+
+button:active {
+    background-color: rgb(160, 160, 160);
+    transform: translate(2px, 2px);
+    box-shadow: inset;
+}
+
+button:focus {
+    outline: 0;
+}
+
 table {
     margin: 30px auto;
     border: 3px solid green;
@@ -30,6 +61,10 @@ table {
     color: white;
 }
 
+.origin {
+    background: violet !important;
+}
+
 .unknown {
     /* background: white !important; */
     color: white !important;
@@ -47,4 +82,9 @@ table {
 
 .oxygen-system {
     color: lightgreen;
+}
+
+.marked-path {
+    /* background: lightpink !important; */
+    color: rgb(64, 255, 192);
 }
