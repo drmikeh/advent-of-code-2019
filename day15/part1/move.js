@@ -3,6 +3,7 @@ const SPACE = 1
 const OXYGEN_SYSTEM = 2
 const DROID = 3
 const MARKED_PATH = 4
+const OXYGEN_RESTORED = 5
 
 const computer = makeComputer('./data.txt')
 
@@ -38,6 +39,9 @@ let pos = {
     x: 0,
     y: 0
 }
+let oldPos = { ...pos }
+let oxygenSystemDistance = null
+let oxygenSystemNode = null
 mazeCache.set(hash(pos), DROID)
 
 function hash(pos) {
@@ -52,14 +56,16 @@ function move(direction) {
             const value = mazeCache.get(hash(pos))
             const restoreValue = value === DROID ? SPACE : OXYGEN_SYSTEM
             mazeCache.set(hash(pos), restoreValue) // droid leaves old position
+            oldPos = pos
             pos = direction.move(pos)
             mazeCache.set(hash(pos), DROID) // droid enters new position
             break
         }
         case WALL: {
-            // mark the wall and calc next direction
+            // mark the wall
             const wallPosition = direction.move(pos)
             mazeCache.set(hash(wallPosition), WALL)
+            oldPos = wallPosition
             break
         }
         case OXYGEN_SYSTEM:
@@ -69,8 +75,12 @@ function move(direction) {
                 depth: currentNode.depth
             })
             mazeCache.set(hash(pos), SPACE) // droid leaves old position
+            oldPos = pos
             pos = direction.move(pos)
             mazeCache.set(hash(pos), OXYGEN_SYSTEM) // droid enters oxygen system
+            oxygenSystemNode = currentNode
+            oxygenSystemDistance = currentNode.depth
+            break
     }
     return output
 }

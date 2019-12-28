@@ -88,3 +88,19 @@ table {
     /* background: lightpink !important; */
     color: rgb(64, 255, 192);
 }
+
+.oxygen-restored {
+    background: orange !important;
+}
+
+.main {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    padding: 10px;
+}
+
+.answer {
+    color: salmon;
+}
