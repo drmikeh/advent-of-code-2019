@@ -3,7 +3,7 @@ const orbits = require('../file-reader.js')
     .map(s => s.split(')'))
 
 function getOrbits() {
-    // 1. build nodes from the orbits
+    // build an array of nodes from the orbits
     const root = { name: 'COM', parent: null }
     const nodes = [root]
     orbits.forEach(o => {
@@ -11,7 +11,7 @@ function getOrbits() {
         nodes.push({ name: orbiter, parent: center })
     })
 
-    // 2. build tree by connecting nodes to parent nodes
+    // build a tree by connecting nodes to parent nodes
     nodes.forEach(node => {
         if (node.parent) {
             node.parent = nodes.find(n => n.name === node.parent)
@@ -19,4 +19,5 @@ function getOrbits() {
     })
     return nodes
 }
+
 module.exports = getOrbits

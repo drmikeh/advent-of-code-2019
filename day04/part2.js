@@ -1,32 +1,23 @@
 const [start, end] = require('../file-reader').readFile('data.txt', '-', Number)
 
-/*
-function getConsecutiveLength(password, index) {
-    let length = 0
-    for (let i = index; i >= 0; i--) {
-        length += password[index] === password[i] ? 1 : 0
-    }
-    console.log(password, index, password[index], length)
-    return length
+function exactly2Match(password, idx) {
+    return (
+        password[idx] === password[idx - 1] &&
+        password[idx] !== password[idx + 1] &&
+        password[idx] !== password[idx - 2]
+    )
 }
-*/
 
 function checkPassword(password) {
     let result = false
     for (var i = 1; i < 6; i++) {
-        if (
-            password[i] === password[i - 1] &&
-            password[i] !== password[i + 1] &&
-            password[i] !== password[i - 2]
-        ) {
-            // console.log('true:', i)
+        if (exactly2Match(password, i)) {
             result = true
         }
         if (password[i - 1] > password[i]) {
             return false
         }
     }
-    // if (result) console.log('match:', password)
     return result
 }
 

@@ -17,7 +17,7 @@ function execute(mem, ptr, input) {
             mem[mem[ptr + 1]] = input
             return ptr + 2
         case 4:
-            console.log(mem[mem[ptr + 1]])
+            console.log('OUTPUT:', mem[mem[ptr + 1]])
             return ptr + 2
         case 5:
             return param1 ? param2 : ptr + 3
@@ -34,10 +34,8 @@ function execute(mem, ptr, input) {
     }
 }
 
-;+(function() {
-    const instructions = require('../file-reader.js').readFile('data.txt', ',')
-    let instrPtr = 0
-    while (instrPtr < instructions.length && instructions[instrPtr] !== 99) {
-        instrPtr = execute(instructions, instrPtr, 5)
-    }
-})()
+const instructions = require('../file-reader.js').readFile('data.txt', ',')
+let instrPtr = 0
+while (instrPtr < instructions.length && instructions[instrPtr] !== 99) {
+    instrPtr = execute(instructions, instrPtr, 5)
+}

@@ -17,17 +17,15 @@ function execute(mem, ptr, input) {
             mem[mem[ptr + 1]] = input
             return ptr + 2
         case 4:
-            console.log(mem[mem[ptr + 1]])
+            console.log('OUTPUT:', mem[mem[ptr + 1]])
             return ptr + 2
         default:
             console.error('unrecognized opcode:', opcode)
     }
 }
 
-;+(function() {
-    const instructions = require('../file-reader.js').readFile('data.txt', ',')
-    let instrPtr = 0
-    while (instrPtr < instructions.length && instructions[instrPtr] !== 99) {
-        instrPtr = execute(instructions, instrPtr, 1)
-    }
-})()
+const instructions = require('../file-reader.js').readFile('data.txt', ',')
+let instrPtr = 0
+while (instrPtr < instructions.length && instructions[instrPtr] !== 99) {
+    instrPtr = execute(instructions, instrPtr, 1)
+}

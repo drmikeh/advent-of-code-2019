@@ -1,4 +1,4 @@
-const getIntersections = require('./common')
+const getIntersections = require('./get-intersections')
 
 // find the minimum distance from origin to an intersection
 const minFunction = (min, intersection) =>

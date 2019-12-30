@@ -36,10 +36,6 @@ astroids.sort((rock1, rock2) => {
 // remove all blocked astroids
 astroids = astroids.filter(rock => isVisible(astroids, home, rock))
 
-// astroids.forEach((rock, index) => {
-//     console.log(index, ': ', rock)
-// })
-
 console.log('home:', home)
 const rock200 = astroids[199]
 console.log('answer: ', rock200.x * 100 + rock200.y) // 1623

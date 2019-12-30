@@ -27,7 +27,6 @@ function calcSteps(values) {
     let found = false
     let hash = makeHash(values)
     states[hash] = steps++
-    console.log('A:', hash, steps)
 
     while (!found) {
         // update velocities
@@ -49,6 +48,7 @@ function calcSteps(values) {
             states[hash] = steps++
         }
     }
+    console.log('calcSteps:', hash, steps)
     return steps
 }
 
