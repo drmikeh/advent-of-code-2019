@@ -26,6 +26,6 @@ async function part2() {
         nodes = restoreOxygen(nodes)
         totalMinutes = totalMinutes + 1
         renderTotalMinutes()
-        await sleep(0)
+        await sleep(delay)
     }
 }

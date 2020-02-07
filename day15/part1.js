@@ -38,9 +38,9 @@ async function part1() {
     while (currentNode !== null) {
         if (!paused) {
             step()
-            await sleep(0)
+            await sleep(delay)
         } else {
-            await sleep(0)
+            await sleep(delay)
         }
     }
     // highlight the path to the oxygen system

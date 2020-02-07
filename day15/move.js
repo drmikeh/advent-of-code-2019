@@ -70,16 +70,16 @@ function move(direction) {
         }
         case OXYGEN_SYSTEM:
             // mark the oxygen system and return
-            console.log('FOUND THE OXYGEN SYSTEM at', {
-                pos,
-                depth: currentNode.depth
-            })
             mazeCache.set(hash(pos), SPACE) // droid leaves old position
             oldPos = pos
             pos = direction.move(pos)
             mazeCache.set(hash(pos), OXYGEN_SYSTEM) // droid enters oxygen system
             oxygenSystemNode = currentNode
             oxygenSystemDistance = currentNode.depth
+            console.log('FOUND THE OXYGEN SYSTEM at', {
+                ...pos,
+                depth: currentNode.depth
+            })
             break
     }
     return output

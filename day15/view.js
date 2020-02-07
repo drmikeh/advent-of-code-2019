@@ -24,7 +24,7 @@ function getMazeDimensions() {
         (max, key) => Math.max(max, key.split(',')[1]),
         -1
     )
-    return [minX, maxX, minY, maxY]
+    return { minX, maxX, minY, maxY }
 }
 
 let previousMazeDimensions = [null, null, null, null]
@@ -58,8 +58,8 @@ function renderCell(pos, color = null) {
     }
 }
 
-function rerenderMaze([minX, maxX, minY, maxY]) {
-    // console.log('rerenderMaze')
+function rerenderMaze(minX, maxX, minY, maxY) {
+    console.log('rerenderMaze')
     // remove all child nodes
     while (mazeElement.firstChild) {
         mazeElement.removeChild(mazeElement.firstChild)
@@ -75,26 +75,26 @@ function rerenderMaze([minX, maxX, minY, maxY]) {
             cell.id = hash(pos)
             cell.innerHTML = text
             if (x === 0 && y === 0) cell.className = 'origin'
-            // else if (v === MARKED_PATH) cell.className = 'marked-path'
             row.appendChild(cell)
         }
         mazeElement.appendChild(row)
     }
 }
 
-function renderMaze() {
-    const dims = getMazeDimensions()
+function renderMaze(forceRerender = false) {
+    const { minX, maxX, minY, maxY } = getMazeDimensions()
     if (
-        previousMazeDimensions[0] === dims[0] &&
-        previousMazeDimensions[1] === dims[1] &&
-        previousMazeDimensions[2] === dims[2] &&
-        previousMazeDimensions[3] === dims[3]
+        !forceRerender &&
+        previousMazeDimensions.minX === minX &&
+        previousMazeDimensions.maxX === maxX &&
+        previousMazeDimensions.minY === minY &&
+        previousMazeDimensions.maxY === maxY
     ) {
         renderCell(oldPos)
         renderCell(pos)
     } else {
-        previousMazeDimensions = dims
-        rerenderMaze(dims)
+        previousMazeDimensions = { minX, maxX, minY, maxY }
+        rerenderMaze(minX, maxX, minY, maxY)
     }
 }
 
@@ -112,6 +112,8 @@ const mazeElement = document.getElementById('maze')
 const outputElement = document.getElementById('output')
 const positionElement = document.getElementById('position')
 const directionElement = document.getElementById('direction')
+const dimensionsElement = document.getElementById('dimensions')
+const discoveredElement = document.getElementById('discovered')
 const stepsElement = document.getElementById('steps')
 const currentDepthElement = document.getElementById('current-depth')
 const maxDepthElement = document.getElementById('max-depth')
@@ -129,10 +131,16 @@ function renderTotalMinutes() {
 
 renderMaze()
 
-function render(direction) {
+function render(direction, forceRerender = false) {
     outputElement.innerHTML = RESULTS[output] || output
     directionElement.innerHTML = direction ? direction.name : 'null'
     positionElement.innerHTML = `(${pos.x}, ${pos.y})`
+
+    const { minX, maxX, minY, maxY } = getMazeDimensions()
+    dimensionsElement.innerHTML = `(${minX}, ${maxX}) - (${minY}, ${maxY})`
+
+    discoveredElement.innerHTML = mazeCache.size
+
     stepsElement.innerHTML = totalSteps
     currentDepthElement.innerHTML = currentNode ? currentNode.depth : 0
     maxDepthElement.innerHTML = maxDepth
@@ -140,7 +148,7 @@ function render(direction) {
         ? `(${oxygenSystemNode.pos.x}, ${oxygenSystemNode.pos.y})`
         : 'Unknown'
     oxygenSystemDistanceElement.innerHTML = oxygenSystemDistance || 'Unknown'
-    renderMaze()
+    renderMaze(forceRerender)
 }
 
 function up() {
@@ -157,4 +165,13 @@ function left() {
 
 function right() {
     makeMove(RIGHT)
+}
+
+let delay = 0
+function toggleSpeed() {
+    if (delay === 0) {
+        delay = 300
+    } else {
+        delay = 0
+    }
 }
